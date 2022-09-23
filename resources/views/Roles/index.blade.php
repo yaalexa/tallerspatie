@@ -26,34 +26,21 @@
             <tr>
                 <th>Id</th>
                 <th>Name</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th>Tools</th>
+                <th>Permisos</th>
+                <th>Acciones</th>
             </tr>
             </thead>
             
             <tbody>
-                @foreach ($users as $user)      
-                @if(!\Auth::user()->hasRole('admin') && $user->hasRole('admin')) @continue; @endif                          
-                <tr {{ Auth::user()->id == $user->id ? 'bgcolor=#ddd' : '' }}>
-                    <td>{{$user['id']}}</td>
-                    <td>{{$user['name']}}</td>
-                    <td>{{$user['email']}}</td>
+                @foreach ($role as $role)      
+                    <tr >
+                    <td>{{$role['id']}}</td>
+                    <td>{{$role['name']}}</td>
+                    <td>{{ str_replace(array('[',']','"'),'', $role->permissions()->pluck('name')) }}</td>
                     <td>
-                        @if ($user->roles->isNotEmpty())
-                            @foreach ($user->roles as $role)
-                                <span class="badge badge-secondary">
-                                    {{ $role->name }}
-                                </span>
-                            @endforeach
-                        @endif
-
-                    </td>
-                    
-                    <td>
-                        <a href="/users/{{ $user['id'] }}"><i class="fa fa-eye"></i></a>
-                        <a href="/users/{{ $user['id'] }}/edit"><i class="fa fa-edit"></i></a>
-                        <a href="#" data-toggle="modal" data-target="#deleteModal" data-userid="{{$user['id']}}"><i class="fas fa-trash-alt"></i></a>
+                        <a href="/users/{{ $role['id'] }}"><i class="fa fa-eye"></i></a>
+                        <a href="/users/{{ $role['id'] }}/edit"><i class="fa fa-edit"></i></a>
+                        <a href="#" data-toggle="modal" data-target="#deleteModal" data-userid="{{$role['id']}}"><i class="fas fa-trash-alt"></i></a>
                     </td>
                 </tr>
                 @endforeach
@@ -64,6 +51,44 @@
         </div>
       </div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+          <form method="POST" action="{{ route('role.store') }}" class="form-horizontal">
+            @csrf
+            <div class="card ">
+              <div class="card-header card-header-primary">
+                <h4 class="card-title">{{ __('Crear Rol') }}</h4>
+                <p class="card-category">{{ __('Digite la Informacion Para Crear Un Nuevo Rol') }}</p>
+              </div>
+              <div class="card-body ">
+              
+                <div class="row">
+                  <label class="col-sm-2 col-form-label">{{ __('Name') }}</label>
+                  <div class="col-sm-7">
+                    
+                      <input name="name" id="name" type="text" placeholder="{{ __('Name') }}"  required="true" aria-required="true"/>
+                   
+                
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="col-sm-2 col-form-label">{{ __('Permiso') }}</label>
+                   <div class="col-sm-7">  
+                      @foreach($permission as $permission)
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="permission[]" multiple value="{{ $permission->name }}"> {{ $permission->name }}
+                        <br>
+                      @endforeach
+                    </div>
+                </div>
+              </div>
+              <div class="card-footer ml-auto mr-auto">
+                <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+  </div>
   </div>
 </div>
 @endsection

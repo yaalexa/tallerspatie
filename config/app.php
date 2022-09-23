@@ -177,7 +177,12 @@ return [
 
         /*spatie*/
         Spatie\Permission\PermissionServiceProvider::class,
+  
 
+        
+        Hyn\Tenancy\Providers\TenancyProvider::class,
+        // Hyn multi tenancy webserver integration.
+        Hyn\Tenancy\Providers\WebserverProvider::class,
     ],
 
     /*
@@ -232,6 +237,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+      
 
     ],
 

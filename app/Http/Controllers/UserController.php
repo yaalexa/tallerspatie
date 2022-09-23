@@ -6,9 +6,14 @@ use App\Models\User;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 class UserController extends Controller
 {
-
+    function __construct()
+    {
+        //$this->middleware('can:profile.password')->only('store');
+    }
     /**
      * Display a listing of the users
      *
@@ -17,7 +22,8 @@ class UserController extends Controller
      */
     public function index(User $model)
     {
-        return view('users.index', ['users' => $model->paginate(15)]);
+        $users=User::Orderby('name','ASC')->get();
+        return view('users.index',compact('users'));  
     }
    
     public function create(Request $request)
@@ -29,29 +35,18 @@ class UserController extends Controller
    
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|same:confirm-password',
-            'roles' => 'required'
+        $request->validate([
+            'name' => 'required|max:255',
+            'email' => 'required|unique:users|email|max:255',
+            'password' => 'required|between:8,255|confirmed',
+            'password_confirmation' => 'required',
         ]);
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ])->assignRole($data['roles']);
-
-
-/*
-        $input = $request->all();
-        $input['password'] = Hash::make($input['password']);
-    
-        $user = User::create($input);
-        $user->assignRole($request->input('roles'));
-    
-        return redirect()->route('users.index')
-                        ->with('success','User created successfully');*/
-        
+         User::create([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            'password' => Hash::make($request['password']),
+        ])->assignRole($request['role']);
+        return redirect()->route('user.index');
     }
 
    

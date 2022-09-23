@@ -34,10 +34,10 @@
                 <span class="sidebar-normal"> {{ __('User Management') }} </span>
               </a>
             </li>
-            <li class="nav-item{{ $activePage == 'rol' ? ' active' : '' }}">
-              <a class="nav-link" href="{{ route('roles.index') }}">
+            <li class="nav-item{{ $activePage == 'role' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('role.index') }}">
                 <span class="sidebar-mini"> R </span>
-                <span class="sidebar-normal"> {{ __('Rol') }} </span>
+                <span class="sidebar-normal"> {{ __('Roles') }} </span>
               </a>
             </li>
           </ul>

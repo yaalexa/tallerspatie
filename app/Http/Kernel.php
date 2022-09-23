@@ -21,7 +21,10 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+       
+    
     ];
+   
 
     /**
      * The application's route middleware groups.
@@ -44,6 +47,13 @@ class Kernel extends HttpKernel
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
+        'tenant.web' => [
+            \Spatie\Multitenancy\Http\Middleware\NeedsTenant::class,
+            \Spatie\Multitenancy\Http\Middleware\EnsureValidTenantSession::class,
+        ],
+        'tenant.api' => [
+                \Spatie\Multitenancy\Http\Middleware\NeedsTenant::class,
+        ]
     ];
 
     /**

@@ -29,11 +29,13 @@ Route::group(['middleware' => 'auth'], function () {
 		return view('pages.table_list');
 	})->name('table');
 });
-
+Route::resource('role', 'App\Http\Controllers\RoleController');
 Route::group(['middleware' => 'auth'], function () {
+	//Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']])->middleware('can:profile.edit');
 	Route::resource('user', 'App\Http\Controllers\UserController', ['except' => ['show']]);
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit'])->middleware('can:profile.edit');
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update'])->middleware('can:profile.update');
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password'])->middleware('can:profile.password');
+
 });
 

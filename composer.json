@@ -8,11 +8,13 @@
         "php": "^7.3|^8.0",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "hyn/multi-tenant": "^5.8",
         "laravel-frontend-presets/material-dashboard": "^1.1",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "laravel/ui": "*",
+        "spatie/laravel-multitenancy": "2.0",
         "spatie/laravel-permission": "^5.5"
     },
     "require-dev": {
